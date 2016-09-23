@@ -2,12 +2,16 @@ package mezz.jei.api.recipe;
 
 import javax.annotation.Nullable;
 
+import mezz.jei.api.IRecipeRegistry;
 import mezz.jei.api.gui.IGuiIngredient;
 import mezz.jei.api.gui.IGuiIngredientGroup;
 
 /**
- * The current search focus. Set by the player when they look up the recipe. The object being looked up is the focus.
+ * The current search focus.
+ * Set by the player when they look up the recipe. The object being looked up is the focus.
+ * This class is immutable, the value and mode do not change.
  *
+ * @see IRecipeRegistry#createFocus(Mode, Object)
  * @see IGuiIngredient#getCurrentlyDisplayed()
  * @see IGuiIngredientGroup#getFocus()
  */

@@ -4,12 +4,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.BlankRecipeWrapper;
+import mezz.jei.api.recipe.IStackHelper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
-import mezz.jei.plugins.vanilla.VanillaRecipeWrapper;
+import mezz.jei.plugins.vanilla.VanillaPlugin;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 
-public class ShapedRecipesWrapper extends VanillaRecipeWrapper implements IShapedCraftingRecipeWrapper {
+public class ShapedRecipesWrapper extends BlankRecipeWrapper implements IShapedCraftingRecipeWrapper {
 
 	private final ShapedRecipes recipe;
 
@@ -20,6 +23,18 @@ public class ShapedRecipesWrapper extends VanillaRecipeWrapper implements IShape
 				itemStack.stackSize = 1;
 			}
 		}
+	}
+
+	@Override
+	public void setIngredients(IIngredients ingredients) {
+		IStackHelper stackHelper = VanillaPlugin.jeiHelpers.getStackHelper();
+
+		List<ItemStack> recipeItems = Arrays.asList(recipe.recipeItems);
+		List<List<ItemStack>> inputs = stackHelper.expandRecipeInputs(recipeItems);
+		ingredients.getInputs(ItemStack.class).addAll(inputs);
+
+		List<ItemStack> outputs = Collections.singletonList(recipe.getRecipeOutput());
+		ingredients.getOutputs(ItemStack.class).addAll(outputs);
 	}
 
 	@Override

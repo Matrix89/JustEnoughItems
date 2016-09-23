@@ -8,7 +8,8 @@ import java.util.Map;
 import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.ITooltipCallback;
 import mezz.jei.api.recipe.IFocus;
-import mezz.jei.gui.Focus;
+import mezz.jei.input.ClickedIngredient;
+import mezz.jei.input.IClickedIngredient;
 import net.minecraft.client.Minecraft;
 
 public abstract class GuiIngredientGroup<T, V extends GuiIngredient<T>> implements IGuiIngredientGroup<T> {
@@ -52,10 +53,13 @@ public abstract class GuiIngredientGroup<T, V extends GuiIngredient<T>> implemen
 	}
 
 	@Nullable
-	public Focus<T> getFocusUnderMouse(int xOffset, int yOffset, int mouseX, int mouseY) {
+	public IClickedIngredient<T> getIngredientUnderMouse(int xOffset, int yOffset, int mouseX, int mouseY) {
 		for (V widget : guiIngredients.values()) {
 			if (widget != null && widget.isMouseOver(xOffset, yOffset, mouseX, mouseY)) {
-				return widget.getCurrentlyDisplayed();
+				T displayedIngredient = widget.getDisplayedIngredient();
+				if (displayedIngredient != null) {
+					return new ClickedIngredient<T>(displayedIngredient);
+				}
 			}
 		}
 		return null;

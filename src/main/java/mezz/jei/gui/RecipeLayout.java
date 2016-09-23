@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.gui.ingredients.GuiFluidStackGroup;
 import mezz.jei.gui.ingredients.GuiIngredient;
 import mezz.jei.gui.ingredients.GuiItemStackGroup;
+import mezz.jei.input.IClickedIngredient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -32,8 +33,18 @@ public class RecipeLayout implements IRecipeLayout {
 
 	public <T extends IRecipeWrapper> RecipeLayout(int index, int posX, int posY, IRecipeCategory<T> recipeCategory, T recipeWrapper, MasterFocus focus) {
 		this.recipeCategory = recipeCategory;
-		this.guiItemStackGroup = new GuiItemStackGroup(new Focus<ItemStack>(focus.getMode(), focus.getItemStack()));
-		this.guiFluidStackGroup = new GuiFluidStackGroup(new Focus<FluidStack>(focus.getMode(), focus.getFluidStack()));
+
+		ItemStack itemStackFocus = null;
+		FluidStack fluidStackFocus = null;
+		Object focusValue = focus.getFocus().getValue();
+		if (focusValue instanceof ItemStack) {
+			itemStackFocus = (ItemStack) focusValue;
+		} else if (focusValue instanceof FluidStack) {
+			fluidStackFocus = (FluidStack) focusValue;
+		}
+		this.guiItemStackGroup = new GuiItemStackGroup(new Focus<ItemStack>(focus.getMode(), itemStackFocus));
+		this.guiFluidStackGroup = new GuiFluidStackGroup(new Focus<FluidStack>(focus.getMode(), fluidStackFocus));
+
 		int width = recipeCategory.getBackground().getWidth();
 		int height = recipeCategory.getBackground().getHeight();
 		this.recipeTransferButton = new RecipeTransferButton(recipeTransferButtonIndex + index, posX + width + 2, posY + height - RECIPE_BUTTON_SIZE, RECIPE_BUTTON_SIZE, RECIPE_BUTTON_SIZE, "+");
@@ -104,12 +115,12 @@ public class RecipeLayout implements IRecipeLayout {
 	}
 
 	@Nullable
-	public Focus<?> getFocusUnderMouse(int mouseX, int mouseY) {
-		Focus<?> focus = guiItemStackGroup.getFocusUnderMouse(posX, posY, mouseX, mouseY);
-		if (focus == null) {
-			focus = guiFluidStackGroup.getFocusUnderMouse(posX, posY, mouseX, mouseY);
+	public IClickedIngredient<?> getIngredientUnderMouse(int mouseX, int mouseY) {
+		IClickedIngredient<?> clicked = guiItemStackGroup.getIngredientUnderMouse(posX, posY, mouseX, mouseY);
+		if (clicked == null) {
+			clicked = guiFluidStackGroup.getIngredientUnderMouse(posX, posY, mouseX, mouseY);
 		}
-		return focus;
+		return clicked;
 	}
 
 	public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {

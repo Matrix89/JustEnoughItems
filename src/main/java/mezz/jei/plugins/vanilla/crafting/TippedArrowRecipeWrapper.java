@@ -4,8 +4,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
+import mezz.jei.api.recipe.IStackHelper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
+import mezz.jei.plugins.vanilla.VanillaPlugin;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
@@ -26,6 +29,16 @@ public class TippedArrowRecipeWrapper extends BlankRecipeWrapper implements ISha
 		ItemStack outputStack = new ItemStack(Items.TIPPED_ARROW, 8);
 		PotionUtils.addPotionToItemStack(outputStack, type);
 		this.outputs = Collections.singletonList(outputStack);
+	}
+
+	@Override
+	public void setIngredients(IIngredients ingredients) {
+		IStackHelper stackHelper = VanillaPlugin.jeiHelpers.getStackHelper();
+
+		List<List<ItemStack>> inputs = stackHelper.expandRecipeInputs(this.inputs);
+		ingredients.getInputs(ItemStack.class).addAll(inputs);
+
+		ingredients.getOutputs(ItemStack.class).addAll(outputs);
 	}
 
 	@Override

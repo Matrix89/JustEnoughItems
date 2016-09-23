@@ -6,14 +6,17 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Objects;
-import mezz.jei.plugins.vanilla.VanillaRecipeWrapper;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.BlankRecipeWrapper;
+import mezz.jei.api.recipe.IStackHelper;
+import mezz.jei.plugins.vanilla.VanillaPlugin;
 import mezz.jei.util.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 
-public class BrewingRecipeWrapper extends VanillaRecipeWrapper {
+public class BrewingRecipeWrapper extends BlankRecipeWrapper {
 	private final List<ItemStack> ingredients;
 	private final ItemStack potionInput;
 	private final ItemStack potionOutput;
@@ -44,6 +47,17 @@ public class BrewingRecipeWrapper extends VanillaRecipeWrapper {
 		this.hashCode = Objects.hashCode(potionInput.getItem(), PotionType.getID(typeIn),
 				potionOutput.getItem(), PotionType.getID(typeOut),
 				firstIngredient.getItem(), firstIngredient.getMetadata());
+	}
+
+	@Override
+	public void setIngredients(IIngredients ingredients) {
+		IStackHelper stackHelper = VanillaPlugin.jeiHelpers.getStackHelper();
+
+		List<List<ItemStack>> inputs = stackHelper.expandRecipeInputs(this.inputs);
+		ingredients.getInputs(ItemStack.class).addAll(inputs);
+
+		List<ItemStack> outputs = Collections.singletonList(potionOutput);
+		ingredients.getOutputs(ItemStack.class).addAll(outputs);
 	}
 
 	@Override

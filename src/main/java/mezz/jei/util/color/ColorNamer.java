@@ -3,6 +3,7 @@ package mezz.jei.util.color;
 import javax.annotation.Nullable;
 import java.awt.Color;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,23 @@ public class ColorNamer {
 		this.colorNames = colorNames;
 	}
 
+	public Collection<String> getColorNames(Object ingredient) {
+		// TODO: support other ingredient types
+		if (ingredient instanceof ItemStack) {
+			ItemStack itemStack = (ItemStack) ingredient;
+			List<Color> colors = ColorGetter.getColors(itemStack, 2);
+			return getColorNames(colors);
+		} else {
+			return Collections.emptySet();
+		}
+	}
+
 	public Collection<String> getColorNames(ItemStack itemStack) {
 		List<Color> colors = ColorGetter.getColors(itemStack, 2);
 		return getColorNames(colors);
 	}
 
-	private Collection<String> getColorNames(List<Color> colors) {
+	public Collection<String> getColorNames(Iterable<Color> colors) {
 		final Set<String> allColorNames = new LinkedHashSet<String>();
 		for (Color color : colors) {
 			final String colorName = getClosestColorName(color);

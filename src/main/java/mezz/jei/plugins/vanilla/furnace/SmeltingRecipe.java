@@ -4,20 +4,27 @@ import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
 
-import mezz.jei.plugins.vanilla.VanillaRecipeWrapper;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.util.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
-public class SmeltingRecipe extends VanillaRecipeWrapper {
+public class SmeltingRecipe extends BlankRecipeWrapper {
 	private final List<List<ItemStack>> input;
 	private final List<ItemStack> outputs;
 
 	public SmeltingRecipe(List<ItemStack> input, ItemStack output) {
 		this.input = Collections.singletonList(input);
 		this.outputs = Collections.singletonList(output);
+	}
+
+	@Override
+	public void setIngredients(IIngredients ingredients) {
+		ingredients.getInputs(ItemStack.class).addAll(input);
+		ingredients.getOutputs(ItemStack.class).addAll(outputs);
 	}
 
 	public List<List<ItemStack>> getInputs() {

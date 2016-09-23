@@ -11,7 +11,7 @@ public class Internal {
 	@Nullable
 	private static JeiRuntime runtime;
 	@Nullable
-	private static ItemRegistry itemRegistry;
+	private static IngredientRegistry ingredientRegistry;
 	@Nullable
 	private static ColorNamer colorNamer;
 
@@ -45,12 +45,12 @@ public class Internal {
 	}
 
 	@Nullable
-	public static ItemRegistry getItemRegistry() {
-		return itemRegistry;
+	public static IngredientRegistry getIngredientRegistry() {
+		return ingredientRegistry;
 	}
 
-	public static void setItemRegistry(ItemRegistry itemRegistry) {
-		Internal.itemRegistry = itemRegistry;
+	public static void setIngredientRegistry(@Nullable IngredientRegistry ingredientRegistry) {
+		Internal.ingredientRegistry = ingredientRegistry;
 	}
 
 	@Nullable

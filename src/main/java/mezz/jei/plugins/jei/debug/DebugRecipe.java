@@ -3,11 +3,13 @@ package mezz.jei.plugins.jei.debug;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import mezz.jei.Internal;
 import mezz.jei.api.IItemListOverlay;
 import mezz.jei.api.IJeiRuntime;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -31,6 +33,16 @@ public class DebugRecipe extends BlankRecipeWrapper {
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		button.drawButton(minecraft, mouseX, mouseY);
+	}
+
+	@Override
+	public void setIngredients(IIngredients ingredients) {
+		FluidStack water = new FluidStack(FluidRegistry.WATER, 1000 + (int) (Math.random() * 1000));
+		FluidStack lava = new FluidStack(FluidRegistry.LAVA, 1000 + (int) (Math.random() * 1000));
+
+		List<List<FluidStack>> inputs = ingredients.getInputs(FluidStack.class);
+		inputs.add(Collections.singletonList(water));
+		inputs.add(Collections.singletonList(lava));
 	}
 
 	@Override

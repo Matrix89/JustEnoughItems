@@ -316,10 +316,31 @@ public class StackHelper implements IStackHelper {
 		return itemStackListBuilder.build();
 	}
 
+	@Override
+	public List<List<ItemStack>> expandRecipeInputs(@Nullable List inputs) {
+		if (inputs == null) {
+			return Collections.emptyList();
+		}
+
+		List<List<ItemStack>> stackList = new ArrayList<List<ItemStack>>();
+		for (Object object : inputs) {
+			List<ItemStack> itemStacks = toItemStackList(object);
+			stackList.add(itemStacks);
+		}
+		return stackList;
+	}
+
 	private void toItemStackList(UniqueItemStackListBuilder itemStackListBuilder, @Nullable Object input) {
 		if (input instanceof ItemStack) {
 			ItemStack stack = (ItemStack) input;
-			itemStackListBuilder.add(stack);
+			if (stack.getMetadata() == OreDictionary.WILDCARD_VALUE) {
+				List<ItemStack> subtypes = getSubtypes(stack);
+				for (ItemStack subtype : subtypes) {
+					itemStackListBuilder.add(subtype);
+				}
+			} else {
+				itemStackListBuilder.add(stack);
+			}
 		} else if (input instanceof String) {
 			List<ItemStack> stacks = OreDictionary.getOres((String) input);
 			for (ItemStack stack : stacks) {
@@ -374,10 +395,12 @@ public class StackHelper implements IStackHelper {
 
 		StringBuilder itemKey = new StringBuilder(itemName.toString());
 
-		ISubtypeRegistry subtypeRegistry = Internal.getHelpers().getSubtypeRegistry();
-		String subtypeInfo = subtypeRegistry.getSubtypeInfo(stack);
-		if (subtypeInfo != null) {
-			itemKey.append(':').append(subtypeInfo);
+		if (mode != UidMode.WILDCARD) {
+			ISubtypeRegistry subtypeRegistry = Internal.getHelpers().getSubtypeRegistry();
+			String subtypeInfo = subtypeRegistry.getSubtypeInfo(stack);
+			if (subtypeInfo != null) {
+				itemKey.append(':').append(subtypeInfo);
+			}
 		}
 
 		int metadata = stack.getMetadata();

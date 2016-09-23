@@ -1,5 +1,6 @@
 package mezz.jei.api.gui;
 
+import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 
@@ -20,6 +21,16 @@ public interface IRecipeLayout {
 	 * Init and set them in your recipe category.
 	 */
 	IGuiFluidStackGroup getFluidStacks();
+
+	/**
+	 * Get all the ingredients of one class that are displayed on this recipe layout.
+	 * Init and set them in your recipe category.
+	 *
+	 * Calling this with ItemStack.class is the same as {@link #getItemStacks()}.
+	 * Calling this with FluidStack.class is the same as {@link #getFluidStacks()}.
+	 * This method is flexible enough to handle custom item types, registered with {@link IModIngredientRegistration}.
+	 */
+	<T> IGuiIngredientGroup<T> getIngredientsForClass(Class<T> ingredientClass);
 
 	/**
 	 * Moves the recipe transfer button's position relative to the recipe layout.

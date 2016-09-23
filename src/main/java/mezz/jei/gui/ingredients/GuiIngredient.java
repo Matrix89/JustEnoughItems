@@ -9,6 +9,7 @@ import java.util.List;
 
 import mezz.jei.api.gui.IGuiIngredient;
 import mezz.jei.api.gui.ITooltipCallback;
+import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.gui.Focus;
 import mezz.jei.gui.TooltipRenderer;
@@ -34,14 +35,14 @@ public class GuiIngredient<T> extends Gui implements IGuiIngredient<T> {
 	private final CycleTimer cycleTimer;
 	private final List<T> displayIngredients = new ArrayList<T>(); // ingredients, taking focus into account
 	private final List<T> allIngredients = new ArrayList<T>(); // all ingredients, ignoring focus
-	private final IIngredientRenderer<T> ingredientRenderer;
+	private final IRecipeIngredientRenderer<T> ingredientRenderer;
 	private final IIngredientHelper<T> ingredientHelper;
 	@Nullable
 	private ITooltipCallback<T> tooltipCallback;
 
 	private boolean enabled;
 
-	public GuiIngredient(IIngredientRenderer<T> ingredientRenderer, IIngredientHelper<T> ingredientHelper, int slotIndex, boolean input, int xPosition, int yPosition, int width, int height, int padding, int itemCycleOffset) {
+	public GuiIngredient(IRecipeIngredientRenderer<T> ingredientRenderer, IIngredientHelper<T> ingredientHelper, int slotIndex, boolean input, int xPosition, int yPosition, int width, int height, int padding, int itemCycleOffset) {
 		this.ingredientRenderer = ingredientRenderer;
 		this.ingredientHelper = ingredientHelper;
 
@@ -61,19 +62,20 @@ public class GuiIngredient<T> extends Gui implements IGuiIngredient<T> {
 		return enabled && (mouseX >= xOffset + xPosition) && (mouseY >= yOffset + yPosition) && (mouseX < xOffset + xPosition + width) && (mouseY < yOffset + yPosition + height);
 	}
 
-	@Nullable
-	public T getIngredient() {
-		return cycleTimer.getCycledItem(displayIngredients);
-	}
-
 	@Override
 	@Nullable
 	public Focus<T> getCurrentlyDisplayed() {
-		T ingredient = getIngredient();
+		T ingredient = getDisplayedIngredient();
 		if (ingredient == null) {
 			return null;
 		}
-		return ingredientHelper.createFocus(ingredient);
+		return new Focus<T>(ingredient);
+	}
+
+	@Nullable
+	@Override
+	public T getDisplayedIngredient() {
+		return cycleTimer.getCycledItem(displayIngredients);
 	}
 
 	@Override
@@ -88,17 +90,20 @@ public class GuiIngredient<T> extends Gui implements IGuiIngredient<T> {
 	public void set(Collection<T> ingredients, IFocus<T> focus) {
 		this.displayIngredients.clear();
 		this.allIngredients.clear();
-		ingredients = ingredientHelper.expandSubtypes(ingredients);
+		ingredientHelper.expandSubtypes(ingredients);
 		T match = null;
 		if ((isInput() && focus.getMode() == IFocus.Mode.INPUT) || (!isInput() && focus.getMode() == IFocus.Mode.OUTPUT)) {
-			match = ingredientHelper.getMatch(ingredients, focus);
+			T focusValue = focus.getValue();
+			if (focusValue != null) {
+				match = ingredientHelper.getMatch(ingredients, focusValue);
+			}
 		}
 		if (match != null) {
 			this.displayIngredients.add(match);
 		} else {
 			this.displayIngredients.addAll(ingredients);
 		}
-		this.ingredientRenderer.setIngredients(ingredients);
+		this.ingredientRenderer.onIngredientsSet(ingredients);
 		this.allIngredients.addAll(ingredients);
 		enabled = !this.displayIngredients.isEmpty();
 	}
@@ -110,12 +115,12 @@ public class GuiIngredient<T> extends Gui implements IGuiIngredient<T> {
 	public void draw(Minecraft minecraft, int xOffset, int yOffset) {
 		cycleTimer.onDraw();
 
-		T value = getIngredient();
+		T value = getDisplayedIngredient();
 		ingredientRenderer.draw(minecraft, xOffset + xPosition + padding, yOffset + yPosition + padding, value);
 	}
 
 	public void drawHovered(Minecraft minecraft, int xOffset, int yOffset, int mouseX, int mouseY) {
-		T value = getIngredient();
+		T value = getDisplayedIngredient();
 		if (value == null) {
 			return;
 		}

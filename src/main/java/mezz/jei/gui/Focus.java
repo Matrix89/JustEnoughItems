@@ -8,7 +8,6 @@ public class Focus<V> implements IFocus<V> {
 	private final Mode mode;
 	@Nullable
 	private final V value;
-	private boolean allowsCheating;
 
 	public Focus(@Nullable V value) {
 		this.mode = Mode.NONE;
@@ -29,13 +28,5 @@ public class Focus<V> implements IFocus<V> {
 	@Override
 	public Mode getMode() {
 		return mode;
-	}
-
-	public void setAllowsCheating() {
-		this.allowsCheating = true;
-	}
-
-	public boolean allowsCheating() {
-		return allowsCheating;
 	}
 }

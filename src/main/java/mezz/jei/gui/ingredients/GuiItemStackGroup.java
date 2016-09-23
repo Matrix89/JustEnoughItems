@@ -5,6 +5,7 @@ import java.util.List;
 import mezz.jei.Internal;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.recipe.IFocus;
+import mezz.jei.plugins.vanilla.ingredients.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 
 public class GuiItemStackGroup extends GuiIngredientGroup<ItemStack, GuiIngredient<ItemStack>> implements IGuiItemStackGroup {
@@ -25,7 +26,7 @@ public class GuiItemStackGroup extends GuiIngredientGroup<ItemStack, GuiIngredie
 	}
 
 	private GuiIngredient<ItemStack> createGuiItemStack(int index, boolean input, int xPosition, int yPosition, int padding) {
-		ItemStackRenderer renderer = new ItemStackRenderer();
+		ItemStackRecipeRenderer renderer = new ItemStackRecipeRenderer();
 		return new GuiIngredient<ItemStack>(renderer, helper, index, input, xPosition, yPosition, getWidth(padding), getHeight(padding), padding, itemCycleOffset);
 	}
 
