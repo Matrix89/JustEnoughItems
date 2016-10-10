@@ -5,7 +5,7 @@ jei.tooltip.show.all.recipes=Pokaż wszystkie receptury
 jei.tooltip.delete.item=Kliknij aby usunąć
 jei.tooltip.liquid.amount.with.capacity=%,d / %,d mB
 jei.tooltip.liquid.amount=%,d mB
-jei.tooltip.transfer=Przenieś przedmiot
+jei.tooltip.transfer=Przenieś przedmioty
 jei.tooltip.recipe.ore.dict=Przyjmuje: %s
 jei.tooltip.item.colors=Kolory: %s
 jei.tooltip.shapeless.recipe=Amorficzna receptura
@@ -15,10 +15,10 @@ jei.tooltip.cheat.mode=Tryb oszustw
 jei.tooltip.error.recipe.transfer.missing=Brak przedmiotu
 jei.tooltip.error.recipe.transfer.inventory.full=Ekwipunek jest pełny
 jei.tooltip.error.recipe.transfer.unknown=Nieznany błąd, sprawdź logi
-jei.tooltip.error.recipe.transfer.no.server=JEI musi być zainstalowane, na serwerze
+jei.tooltip.error.recipe.transfer.no.server=JEI musi być zainstalowane na serwerze
 
 # Error Messages
-jei.chat.error.command.too.long=Ta wiadomość jest zbyt długa, JEI musi być na serwerze aby ją wysłać
+jei.chat.error.command.too.long=Ta wiadomość jest zbyt długa, JEI musi być na serwerze aby ją wysłać.
 
 # Key Bindings
 key.jei.toggleOverlay=Przełącz nakładkę z listą przedmiotów
@@ -46,20 +46,20 @@ config.jei.interface.comment=Opcje interfejsu użytkownika
 config.jei.interface.overlayEnabled=Lista przedmiotów włączona
 config.jei.interface.overlayEnabled.comment=Pokazuj listę przedmiotów w interfejsach
 config.jei.interface.recipeAnimationsEnabled=Animacje receptur
-config.jei.interface.recipeAnimationsEnabled.comment=Pokazuj animacje receptur (ogień w piecu, pasek postępu, itp)
+config.jei.interface.recipeAnimationsEnabled.comment=Pokazuj animacje receptur (ogień w piecu, pasek postępu, itp.)
 
 config.jei.search=Opcje wyszukiwania
 config.jei.search.comment=Opcje paska wyszukiwania
 config.jei.search.atPrefixRequiredForModName=Wymaga @ dla nazwy moda
-config.jei.search.atPrefixRequiredForModName.comment=Używając "@" przed słowem, pozwala szukać po nazwie moda.
+config.jei.search.atPrefixRequiredForModName.comment=Używając "@" przed słowem, pozwala wyszukać po nazwie moda.
 config.jei.search.prefixRequiredForTooltipSearch=Wymaga # dla opisu
-config.jei.search.prefixRequiredForTooltipSearch.comment=Używając "#" przed słowem, pozwala szukać po opisie przedmiotu.
+config.jei.search.prefixRequiredForTooltipSearch.comment=Używając "#" przed słowem, pozwala wyszukać po opisie przedmiotu.
 config.jei.search.prefixRequiredForOreDictSearch=Wymaga $ dla słownika rud
-config.jei.search.prefixRequiredForOreDictSearch.comment=Używając "$" przed słowem, pozwala szukać po słowniku rud(ore dictionary).
+config.jei.search.prefixRequiredForOreDictSearch.comment=Używając "$" przed słowem, pozwala wyszukać po słowniku rud(ore dictionary).
 config.jei.search.prefixRequiredForCreativeTabSearch=Wymaga %% dla nazwy karty trybu kreatywnego
 config.jei.search.prefixRequiredForCreativeTabSearch.comment=Używając "%" przed słowem, pozwala pokazać tylko przedmioty z danej karty trybu kreatywnego.
 config.jei.search.prefixRequiredForColorSearch=Wymaga ^ dla szukania po kolorze
-config.jei.search.prefixRequiredForColorSearch.comment=Używając "^" przed słowem, pozwala szukać przedmiotów danego koloru.
+config.jei.search.prefixRequiredForColorSearch.comment=Używając "^" przed słowem, pozwala wyszukać przedmiotów danego koloru.
 
 config.jei.advanced=Zaawansowane
 config.jei.advanced.comment=Zaawansowane opcje konfiguracyjne, pozwalają zmienić to jak zachowuje się JEI.
@@ -73,7 +73,7 @@ config.jei.advanced.colorSearchEnabled.comment=Pozwala wyszukiwać używając ko
 config.jei.advanced.debugModeEnabled=Debug Mode
 config.jei.advanced.debugModeEnabled.comment=Użyteczne tylko dla developerów JEI.
 config.jei.advanced.centerSearchBarEnabled=Pasek wyszukiwania na środku
-config.jei.advanced.centerSearchBarEnabled.comment=Sprawia że pasek wyszukiwania jest na środku.
+config.jei.advanced.centerSearchBarEnabled.comment=Sprawia, że pasek wyszukiwania jest na środku.
 
 # Edit Mode
 gui.jei.editMode.description=Tryb edycji listy przedmiotów:
@@ -90,10 +90,10 @@ gui.jei.category.smelting=Przepalanie
 gui.jei.category.smelting.experience=%s Doświadczenia
 gui.jei.category.fuel=Paliwo
 gui.jei.category.fuel.smeltCount.single=Przepala 1 przedmiot
-gui.jei.category.fuel.smeltCount=Przepala %s przedmiot 
+gui.jei.category.fuel.smeltCount=Przetapia %s przedmiotów
 gui.jei.category.fuel.burnTime=Czas palenia: %s
 gui.jei.category.brewing=Alchemia
-gui.jei.category.brewing.steps=Koroki: %s
+gui.jei.category.brewing.steps=Kroki: %s
 gui.jei.category.itemDescription=Opis
 
 # DEBUG (for debug mode, do not need translation)
